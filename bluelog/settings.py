@@ -9,7 +9,7 @@ import os
 import sys
 
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-
+myhost="10.23.66.56" #数据库内网地址
 # SQLite URI compatible
 WIN = sys.platform.startswith('win')
 if WIN:
@@ -49,17 +49,17 @@ class BaseConfig(object):
 
 
 class DevelopmentConfig(BaseConfig):
-    SQLALCHEMY_DATABASE_URI = prefix + os.path.join(basedir, 'data-dev.db')
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:bluelog@"+myhost+"/bluelog" #连接mysql数据库
 
 
 class TestingConfig(BaseConfig):
     TESTING = True
     WTF_CSRF_ENABLED = False
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'  # in-memory database
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:bluelog@"+myhost+"/bluelog"  # in-memory database
 
 
 class ProductionConfig(BaseConfig):
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', prefix + os.path.join(basedir, 'data.db'))
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:bluelog@"+myhost+"/bluelog"
 
 
 config = {
