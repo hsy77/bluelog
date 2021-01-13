@@ -4,8 +4,7 @@
 
 clone:
 ```
-(！使用自己的github bluelog 地址，因为我修改了一下代码)
-$ git clone https://github.com/greyli/bluelog.git
+$ git clone https://github.com/hsy77/bluelog.git
 $ cd bluelog
 ```
 ## 2，使用已有数据库

@@ -9,10 +9,10 @@ import os
 import sys
 
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-
-myhost="10.23.66.56" #数据库内网地址
+#等会记得改回去
+myhost="localhost" #数据库内网地址
 myroot="root"
-mypwd="bluelog"
+mypwd="hsy19991231"
 mydb="bluelog"
 
 # SQLite URI compatible

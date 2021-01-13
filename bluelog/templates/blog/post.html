@@ -9,11 +9,11 @@
         <h1>{{ post.title }}
             <span class="float-right">
         {% if current_user.is_authenticated %}
-            <a class="btn btn-info btn-sm" href="{{ url_for('admin.edit_post', post_id=post.id) }}">Edit</a>
+            <a class="btn btn-info btn-sm" href="{{ url_for('admin.edit_post', post_id=post.id) }}">编辑</a>
             <form class="inline" method="post"
                   action="{{ url_for('admin.delete_post', post_id=post.id, next=url_for('blog.index')) }}">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete
+                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">删除
                 </button>
             </form>
         {% endif %}
@@ -29,7 +29,7 @@
         <div class="col-sm-8">
             {{ post.body|safe }}
             <hr>
-            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target=".postLinkModal">Share
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target=".postLinkModal">分享
             </button>
             <div class="modal fade postLinkModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
                  aria-hidden="true">
@@ -51,17 +51,17 @@
                 </div>
             </div>
             <div class="comments" id="comments">
-                <h3>{{ pagination.total }} Comments
+                <h3>{{ pagination.total }} 评论
                     <small>
                         <a href="{{ url_for('.show_post', post_id=post.id, page=pagination.pages or 1) }}#comments">
-                            latest</a>
+                            最新</a>
                     </small>
                     {% if current_user.is_authenticated %}
                         <form class="float-right" method="post"
                               action="{{ url_for('admin.set_comment', post_id=post.id, next=request.full_path) }}">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                             <button type="submit" class="btn btn-warning btn-sm">
-                                {% if post.can_comment %}Disable{% else %}Enable{% endif %} Comment
+                                {% if post.can_comment %}不可{% else %}可{% endif %} 评论
                             </button>
                         </form>
                     {% endif %}
@@ -97,14 +97,14 @@
                                 <p class="mb-1">{{ comment.body }}</p>
                                 <div class="float-right">
                                     <a class="btn btn-light btn-sm"
-                                       href="{{ url_for('.reply_comment', comment_id=comment.id) }}">Reply</a>
+                                       href="{{ url_for('.reply_comment', comment_id=comment.id) }}">回复</a>
                                     {% if current_user.is_authenticated %}
-                                        <a class="btn btn-light btn-sm" href="mailto:{{ comment.email }}">Email</a>
+                                        <a class="btn btn-light btn-sm" href="mailto:{{ comment.email }}">邮箱</a>
                                         <form class="inline" method="post"
                                               action="{{ url_for('admin.delete_comment', comment_id=comment.id, next=request.full_path) }}">
                                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                                             <button type="submit" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Are you sure?');">Delete
+                                                    onclick="return confirm('Are you sure?');">删除
                                             </button>
                                         </form>
                                     {% endif %}
@@ -113,7 +113,7 @@
                         {% endfor %}
                     </ul>
                 {% else %}
-                    <div class="tip"><h5>No comments.</h5></div>
+                    <div class="tip"><h5>没有评论</h5></div>
                 {% endif %}
             </div>
             {% if comments %}
@@ -122,7 +122,7 @@
             {% if request.args.get('reply') %}
                 <div class="alert alert-dark">
                     Reply to <strong>{{ request.args.get('author') }}</strong>:
-                    <a class="float-right" href="{{ url_for('.show_post', post_id=post.id) }}">Cancel</a>
+                    <a class="float-right" href="{{ url_for('.show_post', post_id=post.id) }}">取消</a>
                 </div>
             {% endif %}
             {% if post.can_comment %}
@@ -130,7 +130,7 @@
                     {{ render_form(form, action=request.full_path) }}
                 </div>
             {% else %}
-                <div class="tip"><h5>Comment disabled.</h5></div>
+                <div class="tip"><h5>不可评论</h5></div>
             {% endif %}
         </div>
         <div class="col-sm-4 sidebar">

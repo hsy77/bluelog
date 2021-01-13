@@ -8,9 +8,13 @@
 from flask import render_template, flash, redirect, url_for, Blueprint
 from flask_login import login_user, logout_user, login_required, current_user
 
-from bluelog.forms import LoginForm
+from bluelog.forms import LoginForm, RegisterForm
 from bluelog.models import Admin
 from bluelog.utils import redirect_back
+from bluelog.extensions import db
+
+from sqlalchemy.exc import IntegrityError
+
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -25,7 +29,8 @@ def login():
         username = form.username.data
         password = form.password.data
         remember = form.remember.data
-        admin = Admin.query.first()
+        admin = Admin.query.filter_by(username=username).first()
+        # admin = Admin.query.first()
         if admin:
             if username == admin.username and admin.validate_password(password):
                 login_user(admin, remember)
@@ -43,3 +48,39 @@ def logout():
     logout_user()
     flash('Logout success.', 'info')
     return redirect_back()
+
+
+def create_user(username, password):
+    obj = Admin(
+        username=username,
+        blog_title='Bluelog',
+        blog_sub_title="No, I'm the real thing.",
+        name='Mima Kirigoe',
+        about='Um, l, Mima Kirigoe, had a fun time as a member of CHAM...'
+    )
+    obj.set_password(password)
+    db.session.add(obj)
+    code = 200
+    try:
+        db.session.commit()
+        return code
+    except:
+        code = 500
+        db.session.rollback()
+        return code
+
+
+@auth_bp.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        remember = form.remember.data
+        code = create_user(username, password)
+        if code == 200:
+            flash('注册成功', 'info')
+            return redirect_back()
+        else:
+            flash('存在该用户名', 'warning')
+    return render_template('auth/register.html', form=form)
