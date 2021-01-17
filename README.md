@@ -1,5 +1,11 @@
 # Bluelog 安装
 
+**使用镜像直接看第4步**
+
+**云数据库以删除，需要新建**（防止花费过高）
+
+
+
 ## 1，安装过程
 
 clone:
@@ -44,8 +50,34 @@ Test account:
 
 - 将`bluelog\bluelog\settings.py` 中的以下四个参数改为自己数据库的设置
 
-![数据库设置](D:\这学期\云计算\云计算项目\bluelog\pic\数据库设置.jpg)
+![数据库设置.jpg](http://ww1.sinaimg.cn/large/005ZSk16gy1gmqk9kv2iwj30cw03rwei.jpg)
+
+
+
+# 4,从镜像中导入：
+
+### - 先做步骤3，新建数据库
+
+### - 然后
+
+生成数据并且运行:
+
+```
+$ flask forge #将数据导入数据表中
+$ flask run -h 0.0.0.0 -p 80  #在0.0.0.0 80端口运行，为了使得使用外网ip可以访问
+* Running on http://0.0.0.0:80/
+```
+
+接下来就可以在网页上输入云主机外网ip访问
+
+Test account:
+
+* username: `admin`
+
+* password: `helloflask`
+
+  
 
 ## 安装成果
 
-![安装成果](D:\这学期\云计算\云计算项目\bluelog\pic\安装成果.jpg)
+![安装成果.jpg](http://ww1.sinaimg.cn/large/005ZSk16gy1gmqk9ujm8xj30y30q0wi2.jpg)
